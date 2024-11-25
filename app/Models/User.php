@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Brt;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, HasApiTokens, Notifiable;
     /**
      * The attributes that are mass assignable.
      *
@@ -45,8 +46,9 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    public function brt() {
-        return $this->hasMany(Brt::class);
+    public function brts()
+    {
+        return $this->hasMany(Brt::class); // A user has many brts
     }
 
     public function getJWTIdentifier()

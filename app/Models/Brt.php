@@ -13,7 +13,6 @@ class Brt extends Model
     protected $table = 'brts';
 
     protected $fillable = [
-        'user_id',
         'brt_code',
         'reserved_amount',
         'status',

@@ -17,7 +17,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
@@ -34,16 +34,14 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        Log::info('User data: ', $user->toArray());
-
         $token = JWTAuth::fromUser($user);
 
 
         event(new Registered($user));
-
+        $success = $this->getToken($token);
         return response()->json([
             'message' => 'User Registered Successfully',
-            'token' => $token
+            'data' => $success
         ], 201);
     }
 
@@ -54,9 +52,10 @@ class AuthController extends Controller
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+        $success = $this->getToken($token);
         return response()->json([
             'message' => 'User Logged in Successfully',
-            'token' => $token
+            'data' => $success
         ], 201);
     }
 
@@ -73,4 +72,13 @@ class AuthController extends Controller
         return response()->json(['message' => 'Logged out successfully'], 200);
     }
 
+    protected function getToken($token)
+    {
+        return [
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() . 'mins'
+        ];
+
+    }
 }

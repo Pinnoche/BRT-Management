@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('brt', function (Blueprint $table) {
+        Schema::create('brts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('brt_code')->unique();
             $table->decimal('reserved_amount', 10, 2);
             $table->enum('status', ['active', 'expired'])->default('active');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('brt');
+        Schema::dropIfExists('brts');
     }
 };
