@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Models\Brt;
 use Laravel\Sanctum\HasApiTokens;
-use App\Notifications\VerifyEmail;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+// use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -60,10 +60,5 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    public function sendEmailVerificationNotification()
-    {
-        $this->notify(new VerifyEmail());  // Custom notification (optional)
     }
 }
