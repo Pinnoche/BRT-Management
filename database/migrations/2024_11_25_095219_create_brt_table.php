@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('brt', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('brt_code')->unique();
             $table->decimal('reserved_amount', 10, 2);
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['active', 'expired'])->default('active');
             $table->timestamps();
         });
     }

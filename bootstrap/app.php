@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Application;
-use Tymon\JWTAuth\Http\Middleware\Authenticate;
+// use Tymon\JWTAuth\Http\Middleware\Authenticate;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
@@ -13,13 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->api(prepend: [
-            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        ]);
+        // $middleware->api(prepend: [
+        //     \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+        // ]);
         // JWT api authentication middleware
-        $middleware->api(prepend: [
-            Authenticate::class,
-        ]);
+        // $middleware->api(prepend: [
+        //     Authenticate::class,
+        // ]);
 
         $middleware->alias([
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
