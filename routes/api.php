@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BrtController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
 
 Route::group(
@@ -13,7 +15,7 @@ Route::group(
     function ($router) {
         Route::post('register', [AuthController::class, 'register']);
         Route::post('login', [AuthController::class, 'login']);
-        Route::get('profile', [AuthController::class, 'profile'])->middleware('auth:api');
+        Route::get('profile', [AuthController::class, 'profile'])->middleware(['auth:api', 'verified']);
         Route::post('logout', [AuthController::class, 'destroy'])->middleware('auth:api');
 
     }

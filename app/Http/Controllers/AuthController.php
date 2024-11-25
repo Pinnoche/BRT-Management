@@ -38,6 +38,7 @@ class AuthController extends Controller
 
 
         event(new Registered($user));
+
         $success = $this->getToken($token);
         return response()->json([
             'message' => 'User Registered Successfully',

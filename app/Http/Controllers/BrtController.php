@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brt;
+use App\Events\BRTCreated;
+use App\Events\BRTDeleted;
+use App\Events\BRTUpdated;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
@@ -36,6 +39,9 @@ class BrtController extends Controller
             'status' => 'active'
         ]);
 
+        event(new BRTCreated($brt));
+
+
         return response()->json(['message' => 'BRT created successfully', 'data' => $brt], 201);
     }
 
@@ -55,6 +61,7 @@ class BrtController extends Controller
             'reserved_amount' => $request->reserved_amount,
         ]);
 
+        event(new BRTUpdated($brt));
         return response()->json([
             'message' => 'Your BRT has been updated successfully',
             'data' => $brt
@@ -64,7 +71,7 @@ class BrtController extends Controller
     public function destroy(Brt $brt)
     {
         $brt->delete();
-
+        event(new BRTDeleted($brt));
         return response()->json([
             'message' => 'This BRT has been deleted successfully'
         ], 200);
