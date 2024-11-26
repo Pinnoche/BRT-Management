@@ -41,16 +41,10 @@ class BrtController extends Controller
 
         event(new BRTCreated($brt));
 
-
         return response()->json(['message' => 'BRT created successfully', 'data' => $brt], 201);
     }
 
     public function show(Brt $brt)
-    {
-        return response()->json(['data' => $brt], 200);
-    }
-
-    public function edit(Brt $brt)
     {
         return response()->json(['data' => $brt], 200);
     }
@@ -62,6 +56,7 @@ class BrtController extends Controller
         ]);
 
         event(new BRTUpdated($brt));
+
         return response()->json([
             'message' => 'Your BRT has been updated successfully',
             'data' => $brt
@@ -71,7 +66,9 @@ class BrtController extends Controller
     public function destroy(Brt $brt)
     {
         $brt->delete();
+
         event(new BRTDeleted($brt));
+
         return response()->json([
             'message' => 'This BRT has been deleted successfully'
         ], 200);
